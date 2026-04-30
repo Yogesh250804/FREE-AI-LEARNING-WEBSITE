@@ -4,17 +4,14 @@ import Match from "@/models/Match";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import fs from "fs";
-import path from "path";
+
+// Use standard console.log instead of fs as Vercel has a read-only filesystem
+function logMatch(msg: string) {
+  console.log(`[MATCHMAKING] ${msg}`);
+}
 
 const JWT_SECRET = process.env.JWT_SECRET || "guruji_jwt_super_secret_2024_xK9mP2qR8vL5nW";
 
-// Log to a file we can read
-function logMatch(msg: string) {
-  const logPath = path.join(process.cwd(), "matchmaking.log");
-  const timestamp = new Date().toISOString();
-  fs.appendFileSync(logPath, `[${timestamp}] ${msg}\n`);
-}
 
 export async function POST(request: Request) {
   try {
